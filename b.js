@@ -14,3 +14,8 @@ const newWallet = wallet.address;
 console.log("WALLET ADDRESS :", newWallet);
 
 
+const balance = await provider.getBalance(wallet.address);
+
+const balanceEth = ethers.formatEther(balance);
+
+console.log("Balance:", balanceEth, "ETH");
