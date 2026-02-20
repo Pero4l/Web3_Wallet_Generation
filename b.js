@@ -1,11 +1,9 @@
 import { ethers } from "ethers";
 import dotenv from "dotenv";
 import fs from "fs";
-import express from "express";
 
 dotenv.config();
 
-// Create provider
 const provider = new ethers.InfuraProvider(
   "mainnet",
   process.env.INFURA_API_KEY,
