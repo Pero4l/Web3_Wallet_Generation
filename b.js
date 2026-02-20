@@ -18,7 +18,7 @@ const newWallet = wallet.address;
 // File name
 const FILE = "address.json";
 
-// Load existing wallets
+
 function loadFile() {
   if (fs.existsSync(FILE)) {
     try {
@@ -32,7 +32,7 @@ function loadFile() {
   return [];
 }
 
-// Push wallet to file
+
 function push(address, balance) {
   const data = loadFile();
 
