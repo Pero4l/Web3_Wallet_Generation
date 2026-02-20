@@ -25,9 +25,11 @@ const balanceCheck = async (address) => {
                 if (balanceEth === "0.0") {
                     console.log("Balance is zero. Exiting...");
                     return;
-                }
+                }else{
+
                 console.log("Balance:", balanceEth, "ETH");
-                
+                }
+
             } catch (error) {
                 console.error("Error fetching balance:", error);
             }
