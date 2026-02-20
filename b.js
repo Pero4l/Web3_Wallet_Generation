@@ -7,3 +7,10 @@ const provider = new ethers.InfuraProvider(
   process.env.INFURA_API_KEY
 );
 
+const wallet = ethers.Wallet.createRandom();
+
+const newWallet = wallet.address;
+
+console.log("WALLET ADDRESS :", newWallet);
+
+
