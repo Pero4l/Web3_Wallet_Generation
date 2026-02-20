@@ -15,7 +15,7 @@ const provider = new ethers.InfuraProvider(
 const wallet = ethers.Wallet.createRandom();
 const newWallet = wallet.address;
 
-// File name
+
 const FILE = "address.json";
 
 
