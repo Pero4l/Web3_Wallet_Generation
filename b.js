@@ -1,52 +1,77 @@
 import { ethers } from "ethers";
 import dotenv from "dotenv";
+import fs from "fs";
+
 dotenv.config();
 
+// Create provider
 const provider = new ethers.InfuraProvider(
   "mainnet",
   process.env.INFURA_API_KEY
 );
 
+// Create random wallet
 const wallet = ethers.Wallet.createRandom();
-
 const newWallet = wallet.address;
 
-// console.log("WALLET ADDRESS :", newWallet);
+// File name
+const FILE = "address.json";
 
 
+// Load existing wallets
+function loadFile() {
+  if (fs.existsSync(FILE)) {
+    return JSON.parse(fs.readFileSync(FILE, "utf-8"));
+  }
+  return [];
+}
+
+
+// Push wallet to file
+function push(address, balance) {
+  const data = loadFile();
+
+  const record = {
+    address: address,
+    balance: balance,
+    timestamp: new Date().toISOString(),
+  };
+
+  data.push(record);
+
+  fs.writeFileSync(FILE, JSON.stringify(data, null, 2));
+
+  console.log("Saved to file:", address);
+}
+
+
+// Balance check function
 const balanceCheck = async (address) => {
-    try {
-        
-        let accAddress = address;
-        const checkAddress =  async () => {
-            try {
-                const balance = await provider.getBalance(accAddress);
-                const balanceEth = ethers.formatEther(balance);
-                if (balanceEth === "0.0") {
-                    console.log("Balance is zero. Exiting...");
-                    return;
-                }else{
+  try {
 
-                console.log("Balance:", balanceEth, "ETH");
-                }
+    const balance = await provider.getBalance(address);
 
-            } catch (error) {
-                console.error("Error fetching balance:", error);
-            }
-        };
+    const balanceEth = ethers.formatEther(balance);
 
-        await checkAddress();
+    
+    if (balance === 0n) {
+      console.log("Balance is zero.");
+    } else {
 
-       console.log("WALLET ADDRESS :", address);
+      console.log("Balance:", balanceEth, "ETH");
 
-    } catch (error) {
-        console.error("Error checking balance:", error);
+      push(address, balanceEth);
     }
+
+    console.log("WALLET ADDRESS:", address);
+
+  } catch (error) {
+    console.error("Error checking balance:", error.message);
+  }
+  
+  setInterval(() => balanceCheck(address), 1000);
 };
 
+
+// Run
 balanceCheck(newWallet);
-// const balance = await provider.getBalance(wallet.address);
-
-// const balanceEth = ethers.formatEther(balance);
-
-// console.log("Balance:", balanceEth, "ETH");
