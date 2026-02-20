@@ -107,3 +107,4 @@ const balanceCheck = async (address) => {
 };
 
 setInterval(() => balanceCheck(newWallet), 1000);
+
