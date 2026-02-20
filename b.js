@@ -11,11 +11,40 @@ const wallet = ethers.Wallet.createRandom();
 
 const newWallet = wallet.address;
 
-console.log("WALLET ADDRESS :", newWallet);
+// console.log("WALLET ADDRESS :", newWallet);
 
 
-const balance = await provider.getBalance(wallet.address);
+const balanceCheck = async (address) => {
+    try {
+        
+        let accAddress = address;
+        const checkAddress =  async () => {
+            try {
+                const balance = await provider.getBalance(accAddress);
+                const balanceEth = ethers.formatEther(balance);
+                if (balanceEth === "0.0") {
+                    console.log("Balance is zero. Exiting...");
+                    return;
+                }
+                console.log("Balance:", balanceEth, "ETH");
+                
+            } catch (error) {
+                console.error("Error fetching balance:", error);
+            }
+        };
 
-const balanceEth = ethers.formatEther(balance);
+        await checkAddress();
 
-console.log("Balance:", balanceEth, "ETH");
+       console.log("WALLET ADDRESS :", address);
+
+    } catch (error) {
+        console.error("Error checking balance:", error);
+    }
+};
+
+balanceCheck(newWallet);
+// const balance = await provider.getBalance(wallet.address);
+
+// const balanceEth = ethers.formatEther(balance);
+
+// console.log("Balance:", balanceEth, "ETH");
