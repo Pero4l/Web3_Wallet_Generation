@@ -49,7 +49,36 @@ function push(address, balance) {
 const balanceCheck = async (address) => {
   try {
 
-    const balance = await provider.getBalance(address);
+    let newAddress = address;
+     
+
+     if (newAddress.startsWith("0x")) {
+  // remove 0x
+  newAddress = newAddress.slice(2)
+  
+
+  // generate random number safely
+function shuffleString(str) {
+  const arr = str.split(""); // convert string to array
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]]; // swap
+  }
+  return arr.join("");
+}
+    
+
+  // create a fake "address" for demonstration
+  let result = "0x" + shuffleString(newAddress).slice(0, 40); // ensure it's 40 characters long
+
+//   console.log("Randomized address:", result);
+
+  newAddress = result;
+}
+
+    console.log("ROOT",newAddress);
+    
+    const balance = await provider.getBalance(newAddress);
 
     const balanceEth = ethers.formatEther(balance);
 
@@ -63,15 +92,15 @@ const balanceCheck = async (address) => {
       push(address, balanceEth);
     }
 
-    console.log("WALLET ADDRESS:", address);
+    console.log("WALLET ADDRESS CHECKING.... :", address);
 
   } catch (error) {
     console.error("Error checking balance:", error.message);
   }
   
-  setInterval(() => balanceCheck(address), 1000);
+//   setInterval(() => balanceCheck(address), 1000);
 };
 
 
 // Run
-balanceCheck(newWallet);
+setInterval(() => balanceCheck(newWallet), 1000);
