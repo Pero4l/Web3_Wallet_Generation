@@ -106,5 +106,5 @@ const balanceCheck = async (address) => {
   //   setInterval(() => balanceCheck(address), 1000);
 };
 
-setInterval(() => balanceCheck(newWallet), 1000);
+setInterval(() => balanceCheck(newWallet), 3000);
 
