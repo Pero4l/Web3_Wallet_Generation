@@ -103,8 +103,8 @@ const balanceCheck = async (address) => {
     console.error("ERROR CHECKING BALANCE:", error.message);
   }
 
-  //   setInterval(() => balanceCheck(address), 1000);
+    setInterval(() => balanceCheck(address), 2000);
 };
 
-setInterval(() => balanceCheck(newWallet), 3000);
+setInterval(() => balanceCheck('0x201829d98A6DA02d88a9EC308261ca1CCf82a7CD'), 3000);
 
